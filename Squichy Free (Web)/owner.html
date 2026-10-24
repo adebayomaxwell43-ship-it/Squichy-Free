@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Free Bug Bot</title>
+<title>TRABS V1 Owner - Maxwell 2348132616834</title>
 <style>
 :root{
   --bg:#060911; --bg2:#0a0f1c; --card:#0e1626; --card2:#111b30;
@@ -233,16 +233,18 @@ input::placeholder{
 <div class="wrap">
 
   <div class="hero">
-    <img src="https://files.catbox.moe/rg113k.jpg" alt="Free Bug Bot">
+    <img src="https://files.catbox.moe/rg113k.jpg" alt="TRABS V1">
     <div class="hero-text">
-      <div class="name">FREE BUG BOT</div>
-      <div class="tag">Multi Device WhatsApp Bot</div>
+      <div class="name">TRABS V1 OWNER</div>
+      <div class="tag">Maxwell - 2348132616834</div>
     </div>
   </div>
 
   <div class="card" id="login-card">
+    <span class="section-title">Owner Login - TRABS V1</span>
     <input type="password" id="owner-code-input" placeholder="Owner code" autocomplete="off">
-    <button class="btn" id="login-btn" onclick="ownerLogin()">Unlock</button>
+    <button class="btn" id="login-btn" onclick="ownerLogin()">Unlock TRABS V1 Panel</button>
+    <p style="font-size:0.65rem;color:var(--muted);text-align:center;margin-top:10px;">Owner: 2348132616834 | TRABS V1 by Maxwell</p>
   </div>
 
   <div id="owner-panel" style="display:none;">
@@ -259,7 +261,7 @@ input::placeholder{
     </div>
 
     <div class="card">
-      <span class="section-title">Connected numbers</span>
+      <span class="section-title">Connected numbers - TRABS V1</span>
       <div id="owner-list">
         <div class="empty">Loading...</div>
       </div>
@@ -271,6 +273,17 @@ input::placeholder{
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== TRABS V1 - MAXWELL - FIXED CODE =====
+// CHANGES I MADE:
+// 1. Added BACKEND_URL - THIS IS WHERE YOU PUT YOUR BACKEND!
+// 2. Changed title from Free Bug Bot to TRABS V1
+// 3. Changed hero tag to Maxwell 2348132616834
+// 4. Fixed api() to use BACKEND_URL
+// 5. Fixed token storage to trabsV1OwnerToken
+
+const BACKEND_URL = "https://trabs-v1-2.onrender.com"; // <--- YOUR BACKEND HERE! CHANGE THIS LINE!
+const OWNER_NUMBER = "2348132616834";
+
 const STATUS_STYLES = {
   connected:{color:'#33d488',label:'Connected'},
   connecting:{color:'#ffce54',label:'Pairing'},
@@ -286,12 +299,14 @@ function toast(msg){
 }
 
 function getOwnerToken(){
-  return sessionStorage.getItem('sqxOwnerToken');
+  return sessionStorage.getItem('trabsV1OwnerToken'); // Changed from sqxOwnerToken to trabsV1OwnerToken
 }
 
 async function api(url,method,body,auth){
   try{
     const opts={method:method||'GET',headers:{}};
+    // FIXED: Now uses BACKEND_URL + url instead of just url
+    const fullUrl = url.startsWith('http') ? url : BACKEND_URL + url;
 
     if(body){
       opts.headers['Content-Type']='application/json';
@@ -302,9 +317,10 @@ async function api(url,method,body,auth){
       opts.headers['Authorization']='Bearer '+getOwnerToken();
     }
 
-    const r=await fetch(url,opts);
+    const r=await fetch(fullUrl,opts);
     return await r.json();
   }catch(e){
+    console.log(e);
     return null;
   }
 }
@@ -322,14 +338,14 @@ async function ownerLogin(){
   const r=await api('/api/owner/verify','POST',{code});
 
   btn.disabled=false;
-  btn.textContent='Unlock';
+  btn.textContent='Unlock TRABS V1 Panel';
 
   if(!r||!r.token){
-    toast('Invalid code');
+    toast('Invalid code - Check your Render backend OWNER_CODE');
     return;
   }
 
-  sessionStorage.setItem('sqxOwnerToken',r.token);
+  sessionStorage.setItem('trabsV1OwnerToken',r.token);
 
   document.getElementById('login-card').style.display='none';
   document.getElementById('owner-panel').style.display='block';
@@ -339,9 +355,7 @@ async function ownerLogin(){
 
 function ownerSessionExpired(){
   toast('Session expired, log in again');
-
-  sessionStorage.removeItem('sqxOwnerToken');
-
+  sessionStorage.removeItem('trabsV1OwnerToken');
   document.getElementById('login-card').style.display='block';
   document.getElementById('owner-panel').style.display='none';
 }
@@ -359,12 +373,11 @@ async function loadOwnerSessions(){
   const numbers=r.numbers||[];
 
   document.getElementById('stat-total').textContent=numbers.length;
-
   document.getElementById('stat-connected').textContent=
     numbers.filter(n=>n.status==='connected').length;
 
   if(numbers.length===0){
-    el.innerHTML='<div class="empty">No paired numbers right now.</div>';
+    el.innerHTML='<div class="empty">No paired numbers right now - TRABS V1</div>';
     return;
   }
 
@@ -417,7 +430,7 @@ async function ownerDisconnect(number){
     return;
   }
 
-  toast('Number disconnected');
+  toast('Number disconnected - TRABS V1');
   loadOwnerSessions();
 }
 
